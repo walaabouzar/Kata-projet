@@ -50,7 +50,7 @@ Note : Durant cette phase, vous pouvez en profiter pour corriger le bug de l'ave
 
 ### Partie 3 - Ajouter les nouvelles fonctionnalités
 
-En vous donnant le projet, le client vous a demandé d'implémenter deux nouvelles fonctionnalités :
+En vous donnant le projet, le client vous a demandé d'implémenter de nouvelles fonctionnalités :
 
 #### Ajout d'un nouveau rôle de joueur : Gobelin (`GOBLIN` en anglais) :
 
@@ -69,15 +69,28 @@ En vous donnant le projet, le client vous a demandé d'implémenter deux nouvell
     - `DEF` = 2
     - `ATK` = 3
 
-#### Améliorer la gestion des objets : 
+#### Améliorer la gestion des objets :
 
 Actuellement, un objet, c'est une simple chaîne de caractères. L'idée est d'en faire un vrai objet, disposant :
-    - D'un nom ;
-    - D'une description ;
-    - D'un poids ;
-    - D'une valeur.
-    - Il sera possible pour un joueur de vendre un objet de son inventaire (prévoir une méthode `sell()`).
-    - Par ailleurs, le joueur a désormais un poids max qu'il peut porter. Si un joueur ajoute un objet à son inventaire
-      qui fait dépasser le poids maximal, l'opération échoue.
+
+- D'un nom ;
+- D'une description ;
+- D'un poids ;
+- D'une valeur.
+- Il sera possible pour un joueur de vendre un objet de son inventaire (prévoir une méthode `sell()`).
+- Par ailleurs, le joueur a désormais un poids max qu'il peut porter. Si un joueur ajoute un objet à son inventaire qui
+  fait dépasser le poids maximal, l'opération échoue.
 
 Lors de l'ajout de ces fonctionnalités, vous penserez à créer les tests nécessaires.
+
+#### Ajouter une nouvelle méthode d'affichage :
+
+Actuellement, il est uniquement possible d'avoir le détail d'un joueur dans un affichage textuel. Le client souhaiterait
+que vous ajoutiez un affichage complémentaire en Markdown. Markdown est un moyen simple de formater du texte. Voici
+quelques règles de Markdown :
+
+* `#` permet de créer un titre, `##` un sous-titre, et ainsi de suite ;
+* Des caractères entre `*` formate un texte *en italique* ; et `**` formate un texte **en gras** ;
+* Les listes doivent commencer par `*` au début de la ligne ;
+
+Pour découvrir davantage la syntaxe Markdown, regardez le contenu de ce fichier !
