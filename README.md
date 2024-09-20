@@ -1,3 +1,12 @@
+# Correctif - machine ISIMA
+
+Sur les machines ISIMA, vous **devez** :
+
+* Ouvrir un terminal
+* Taper la commande suivante : `echo "JAVA_HOME=/usr/lib/jvm/jdk-21.0.4-oracle-x64" >> ~/.bashrc`
+* Fermer le terminal (et vous pouvez ensuite ouvrir à nouveau des terminaux sur votre VSCode ou autre)
+
+
 # M1 - Kata
 
 ## RPG Player Manager
