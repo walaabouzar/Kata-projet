@@ -2,7 +2,7 @@ package re.forestier.edu;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import re.forestier.edu.rpg.player;
+import re.forestier.edu.rpg.Player;
 import re.forestier.edu.rpg.UpdatePlayer;
 
 import java.util.ArrayList;
@@ -11,16 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerUnitTest {
 
-    private player adventurer;
-    private player archer;
-    private player dwarf;
+    private Player adventurer;
+    private Player archer;
+    private Player dwarf;
 
     @BeforeEach
     void setup() {
         // Prépare trois joueurs de classes différentes pour les tests
-        adventurer = new player("Alice", "HeroA", "ADVENTURER", 100, new ArrayList<>());
-        archer = new player("Robin", "HeroB", "ARCHER", 50, new ArrayList<>());
-        dwarf = new player("Gimli", "HeroC", "DWARF", 70, new ArrayList<>());
+        adventurer = new Player("Alice", "HeroA", "ADVENTURER", 100, new ArrayList<>());
+        archer = new Player("Robin", "HeroB", "ARCHER", 50, new ArrayList<>());
+        dwarf = new Player("Gimli", "HeroC", "DWARF", 70, new ArrayList<>());
     }
 
     // === Vérifie qu’un joueur est bien créé avec les bonnes infos de base ===
@@ -50,7 +50,7 @@ public class PlayerUnitTest {
     // === Vérifie le comportement si on essaie de créer un joueur avec une classe invalide ===
     @Test
     void testInvalidAvatarClass() {
-        player invalid = new player("X", "Y", "INVALID", 0, null);
+        Player invalid = new Player("X", "Y", "INVALID", 0, null);
         assertNull(invalid.getAvatarClass());   // La classe doit être rejetée
         assertNull(invalid.inventory);          // Pas d’inventaire créé
         assertNull(invalid.abilities);          // Pas de capacités créées
@@ -105,7 +105,7 @@ public class PlayerUnitTest {
         // Tableau : {XP, niveau attendu}
         int[][] thresholds = {{0,1},{9,1},{10,2},{26,2},{27,3},{56,3},{57,4},{110,4},{111,5},{160,5}};
         for (int[] t : thresholds) {
-            player p = new player("Test", "T", "ADVENTURER", 0, new ArrayList<>());
+            Player p = new Player("Test", "T", "ADVENTURER", 0, new ArrayList<>());
             UpdatePlayer.addXp(p, t[0]);
             assertEquals(t[1], p.retrieveLevel(), "Pour XP=" + t[0] + ", le niveau devrait être " + t[1]);
         }
@@ -114,7 +114,7 @@ public class PlayerUnitTest {
     // === Vérifie qu’un joueur commence au niveau 1 s’il n’a pas d’XP ===
     @Test
     void testRetrieveLevelWithoutXp() {
-        player p = new player("Test", "T", "ADVENTURER", 0, new ArrayList<>());
+        Player p = new Player("Test", "T", "ADVENTURER", 0, new ArrayList<>());
         assertEquals(1, p.retrieveLevel());
     }
 
