@@ -2,7 +2,7 @@ package re.forestier.edu;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import re.forestier.edu.rpg.Player;
+import re.forestier.edu.rpg.player;
 import re.forestier.edu.rpg.Affichage;
 
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class AffichageTest {
 
-    private Player adventurer;
+    private player adventurer;
 
     @BeforeEach
     void setup() {
         // Création d'un joueur avec inventaire et capacités
-        adventurer = new Player("Alice", "HeroA", "ADVENTURER", 100, new ArrayList<>());
+        adventurer = new player("Alice", "HeroA", "ADVENTURER", 100, new ArrayList<>());
         // Ajouter un item à l'inventaire pour tester
         adventurer.inventory.add("Épée");
         adventurer.inventory.add("Bouclier");
@@ -54,7 +54,7 @@ public class AffichageTest {
     @Test
     void testAfficherJoueurVide() {
         // Joueur avec inventaire et capacités vides
-        Player p = new Player("Bob", "HeroB", "ARCHER", 50, new ArrayList<>());
+        player p = new player("Bob", "HeroB", "ARCHER", 50, new ArrayList<>());
         p.abilities.clear();
         String output = Affichage.afficherJoueur(p);
 

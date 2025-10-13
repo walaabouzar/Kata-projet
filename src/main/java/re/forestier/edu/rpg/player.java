@@ -3,14 +3,13 @@ package re.forestier.edu.rpg;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Player {
+public class player {
     public String playerName;
     public String Avatar_name;
     private String AvatarClass;
 
-  
+    public Integer money;
 
-    public int level;
     public int healthpoints;
     public int currenthealthpoints;
     protected int xp;
@@ -18,7 +17,7 @@ public class Player {
 
     public HashMap<String, Integer> abilities;
     public ArrayList<String> inventory;
-    public Player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<String> inventory) {
+    public player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<String> inventory) {
         if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF") ) {
             return;
         }
