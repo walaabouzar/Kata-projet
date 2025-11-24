@@ -45,23 +45,15 @@ public class player {
         money = money + amount;
     }
     public int retrieveLevel() {
-        // (lvl-1) * 10 + round((lvl * xplvl-1)/4)
-        HashMap<Integer, Integer> levels = new HashMap<>();
-        levels.put(2,10); // 1*10 + ((2*0)/4)
-        levels.put(3,27); // 2*10 + ((3*10)/4)
-        levels.put(4,57); // 3*10 + ((4*27)/4)
-        levels.put(5,111); // 4*10 + ((5*57)/4)
-        //TODO : ajouter les prochains niveaux
-
-        if (xp < levels.get(2)) {
-            return 1;
-        }
-        else if (xp < levels.get(3)) {return 2;
-        }
-        if (xp < levels.get(4)) {
-            return 3;
-        }
-        if (xp < levels.get(5)) return 4;
+        if (xp < 10) {
+        return 1;
+    } else if (xp < 27) {
+        return 2;
+    } else if (xp < 57) {
+        return 3;
+    } else if (xp < 111) {
+        return 4;
+    } else {
         return 5;
     }
 
