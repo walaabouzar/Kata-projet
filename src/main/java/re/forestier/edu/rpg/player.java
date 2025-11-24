@@ -46,15 +46,17 @@ public class player {
     }
     public int retrieveLevel() {
         if (xp < 10) {
-        return 1;
-    } else if (xp < 27) {
-        return 2;
-    } else if (xp < 57) {
-        return 3;
-    } else if (xp < 111) {
-        return 4;
-    } else {
-        return 5;
+            return 1;
+        } else if (xp < 27) {
+            return 2;
+        } else if (xp < 57) {
+            return 3;
+        } else if (xp < 111) {
+            return 4;
+        } else {
+            return 5;
+            }
+        
     }
 
     public int getXp() {
