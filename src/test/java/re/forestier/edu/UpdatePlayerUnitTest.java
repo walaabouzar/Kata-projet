@@ -1,6 +1,8 @@
 package re.forestier.edu;
 
 import org.junit.jupiter.api.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Array;
 
 import re.forestier.edu.rpg.UpdatePlayer;
 import re.forestier.edu.rpg.player;
@@ -18,10 +20,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class UpdatePlayerUnitTest {
     @Test
-    void testUpdatePlayercreate8object() {
+    void testUpdatePlayercreateobject() {
         // Test pour couvrir la déclaration de classe
         UpdatePlayer updatePlayer = new UpdatePlayer();
         assertNotNull(updatePlayer, "UpdatePlayer devrait pouvoir être instancié");
@@ -56,7 +59,40 @@ public class UpdatePlayerUnitTest {
         assertTrue(newLevel > currentLevel); // le joueur a monté de niveau
         assertTrue(result);                  // couvre le return true
         assertFalse(p.inventory.isEmpty());  // vérifie qu'un objet a été ajouté
+        // abilities initiales avant level-up
+        HashMap<String, Integer> oldAbilities = new HashMap<>(p.abilities);
+        HashMap<String, Integer> levelAbilities = UpdatePlayer
+            .abilitiesPerTypeAndLevel()
+            .get("ARCHER")
+            .get(newLevel);
+
+        // Vérifie que toutes les abilities du nouveau level ont été ajoutées
+        levelAbilities.forEach((ability, value) -> {
+            assertEquals(value, p.abilities.get(ability));
+        });
+
+        // Vérifie que les anciennes abilities n'ont pas disparu
+        oldAbilities.forEach((ability, value) -> {
+            assertTrue(p.abilities.containsKey(ability));
+        });
+
+
     }
+    @Test
+    @DisplayName("on asure que ce random meme si on lui retrieve 0 + 0 reste meme")
+    void testRandomObjectAdded() {
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
+
+        int initialSize = p.inventory.size();
+        int currentLevel = p.retrieveLevel();
+        boolean result = UpdatePlayer.addXp(p, 200); // ça fera passer p.xp > 10 → lvl up
+        int newLevel = p.retrieveLevel();
+        assertTrue(newLevel > currentLevel); // le joueur a monté de niveau
+        assertTrue(result);                  // couvre le return true
+        assertEquals(initialSize + 1, p.inventory.size());
+    }
+
+
     @Test
     @DisplayName("test if  player is ko should not change health")
     void TestMajFinDeTourKo() {
@@ -69,15 +105,16 @@ public class UpdatePlayerUnitTest {
 
         // Vérifie que currenthealthpoints reste à 0
         assertEquals(0, p.currenthealthpoints);
-    }
-        void TestMajFinDeTourArcherCPLessHalfHP() {
-        
+    } 
+    @Test
+    void TestMajFinDeTourArcherCPLessHalfHP() {
+    
         player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
 
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-        assertFalse(p.inventory.contains("Holy Elixir"));
 
+        assertFalse(p.inventory.contains("Holy Elixir"));
 
         UpdatePlayer.majFinDeTour(p);
         
@@ -91,13 +128,13 @@ public class UpdatePlayerUnitTest {
     void TestMajFinDeTourCPLessHalfHP() {
         
         player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
-
+        
         p.inventory = new ArrayList<>();        // création de la liste
         p.inventory.add("Holy Elixir");               // ajout de l'élément
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-
         UpdatePlayer.majFinDeTour(p);
+        
 
         // Vérifie que currenthealthpoints reste à 0
         assertEquals(51, p.currenthealthpoints);
@@ -109,10 +146,11 @@ public class UpdatePlayerUnitTest {
         
         player p = new player("John", "Avatar", "ARCHER", 100, new ArrayList<>());
 
+
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-        assertFalse(p.inventory.contains("Magic Bow"), "L'inventaire ne doit pas contenir Magic Bow au départ");
-        UpdatePlayer.majFinDeTour(p);
+        assertFalse(p.inventory.contains("Magic Bow"), "L'inventaire ne doit pas contenir Magic Bow au départ");        UpdatePlayer.majFinDeTour(p);
+        
         assertEquals(50, p.currenthealthpoints);
 
 
@@ -127,7 +165,6 @@ public class UpdatePlayerUnitTest {
         p.currenthealthpoints = 47; // statut KO
         p.inventory = new ArrayList<>();        // création de la liste
         p.inventory.add("Magic Bow");  
-
         UpdatePlayer.majFinDeTour(p);
         assertEquals(53, p.currenthealthpoints);
         // faut que le resultat soit int dans refactoring tu le fait car ya devision il faut faire le cast 
@@ -137,16 +174,12 @@ public class UpdatePlayerUnitTest {
     void TestMajFinDeTourADVENTURER() {
         
         player p = new player("John", "Avatar", "ADVENTURER", 100, new ArrayList<>());
-
+        
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-        UpdatePlayer.addXp(p, 200);
-
+        UpdatePlayer.addXp(p, 27);
         assertTrue(p.retrieveLevel() >= 3, "le niv devrait etre sup a 3");
-
         UpdatePlayer.majFinDeTour(p);
-        
-        
         assertEquals(51, p.currenthealthpoints);
 
 
@@ -156,15 +189,11 @@ public class UpdatePlayerUnitTest {
     void TestMajFinDeTourADVENTURERLevel3() {
         
         player p = new player("John", "Avatar", "ADVENTURER", 100, new ArrayList<>());
-
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-
-        UpdatePlayer.majFinDeTour(p);
         assertTrue(p.retrieveLevel() < 3);
+        UpdatePlayer.majFinDeTour(p);
         assertEquals(50, p.currenthealthpoints);
-        
-
     }
 
     @Test
@@ -178,29 +207,23 @@ public class UpdatePlayerUnitTest {
 
         UpdatePlayer.majFinDeTour(p);
         assertEquals(50, p.currenthealthpoints);
-        player p1 = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
+    }
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajEgal() {
+        
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
 
-        p1.healthpoints = 50;
-        p1.currenthealthpoints = 50; // statut KO 
+        p.healthpoints = 100;
+        p.currenthealthpoints = 50; // statut KO 
 
-        UpdatePlayer.majFinDeTour(p1);
-        assertEquals(50, p1.currenthealthpoints);
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(50, p.currenthealthpoints);
+        
 
 
 
     }
-
-
-
-
-
-
-   
-
-
-
-
-        
 
     }
 
