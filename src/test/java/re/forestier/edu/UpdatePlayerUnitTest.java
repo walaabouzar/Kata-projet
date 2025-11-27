@@ -216,13 +216,31 @@ public class UpdatePlayerUnitTest {
 
         p.healthpoints = 100;
         p.currenthealthpoints = 50; // statut KO 
-
         UpdatePlayer.majFinDeTour(p);
         assertEquals(50, p.currenthealthpoints);
+    }
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajEgalCurrent_w_Health() {
         
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
 
+        p.healthpoints = 50;
+        p.currenthealthpoints = 50; // statut KO 
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(50, p.currenthealthpoints);
+    }
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajCurrentInfHealth() {
+        
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
 
-
+        p.healthpoints = 200;
+        p.currenthealthpoints = 100; // statut KO 
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(100, p.currenthealthpoints);
+        assertEquals(200, p.healthpoints);
     }
 
     }

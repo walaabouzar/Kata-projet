@@ -152,6 +152,8 @@ public class UpdatePlayer {
 
         if(player.currenthealthpoints >= player.healthpoints) {
             player.currenthealthpoints = player.healthpoints;
+            return;
         }
+        
     }
 }
