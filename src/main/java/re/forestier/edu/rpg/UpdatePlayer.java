@@ -108,7 +108,7 @@ public class UpdatePlayer {
             // Give a random object
             ;
             Random random = new Random();
-            player.inventory.add(objectList[random.nextInt(objectList.length - 0) + 0]);
+            player.inventory.add(objectList[random.nextInt(objectList.length)]);
 
             // Add/upgrade abilities to player
             HashMap<String, Integer> abilities = abilitiesPerTypeAndLevel().get(player.getAvatarClass()).get(newLevel);
@@ -148,7 +148,7 @@ public class UpdatePlayer {
                 }
             }
         }
-        
+
         if(player.currenthealthpoints >= player.healthpoints) {
             player.currenthealthpoints = player.healthpoints;
         }
