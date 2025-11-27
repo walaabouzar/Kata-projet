@@ -141,7 +141,8 @@ public class UpdatePlayer {
                         player.currenthealthpoints+=player.currenthealthpoints/8-1;
                     }
                 }
-            } else {
+            }
+            if(player.getAvatarClass().equals("ADVENTURER")) {
                 player.currenthealthpoints+=2;
                 if(player.retrieveLevel() < 3) {
                     player.currenthealthpoints-=1;
