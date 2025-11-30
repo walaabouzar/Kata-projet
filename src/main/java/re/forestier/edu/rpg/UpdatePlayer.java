@@ -125,7 +125,7 @@ public class UpdatePlayer {
         if(player.currenthealthpoints == 0) {
             System.out.println("Le joueur est KO !");
             return;
-        }
+        } 
 
         if(player.currenthealthpoints < player.healthpoints/2) {
             if(!player.getAvatarClass().equals("ADVENTURER")) {
@@ -152,7 +152,6 @@ public class UpdatePlayer {
 
         if(player.currenthealthpoints >= player.healthpoints) {
             player.currenthealthpoints = player.healthpoints;
-            return;
         }
         
     }
