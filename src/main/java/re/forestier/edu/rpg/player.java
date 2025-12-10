@@ -17,7 +17,8 @@ public class player {
     public int currenthealthpoints;
     protected int xp = 0;
 
-    // Niveaux triés
+    private Avatar avatar;
+
     private static final TreeMap<Integer, Integer> LEVEL_THRESHOLDS = new TreeMap<>();
 
     static {
@@ -30,31 +31,34 @@ public class player {
     public HashMap<String, Integer> abilities;
     public ArrayList<String> inventory;
 
-    // === Constructeur inchangé ===
     public player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<String> inventory) {
-        if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF") ) {
+
+        if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF")) {
             return;
         }
 
         this.playerName = playerName;
-        Avatar_name = avatar_name;
-        AvatarClass = avatarClass;
-        this.money = Integer.valueOf(money);
+        this.Avatar_name = avatar_name;
+        this.AvatarClass = avatarClass;
+        this.money = money;
         this.inventory = inventory;
+
         this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(AvatarClass).get(1);
+        this.avatar = AvatarFactory.create(avatarClass);
     }
 
-    // === Getter pour la classe ===
+    public Avatar getAvatar() {
+        return this.avatar;
+    }
+
     public String getAvatarClass() {
         return AvatarClass;
     }
 
-    // === Ajouter de l’argent ===
     public void addMoney(int amount) {
         money += amount;
     }
 
-    // === Retirer de l’argent ===
     public void removeMoney(int amount) throws IllegalArgumentException {
         if (money - amount < 0) {
             throw new IllegalArgumentException("Player can't have a negative money!");
@@ -62,10 +66,8 @@ public class player {
         money -= amount;
     }
 
-    // === Récupérer le niveau selon les seuils ===
     public int retrieveLevel() {
-        int level = 1;  // niveau minimum
-
+        int level = 1;
         for (Map.Entry<Integer, Integer> entry : LEVEL_THRESHOLDS.entrySet()) {
             if (xp >= entry.getValue()) {
                 level = entry.getKey();
@@ -76,7 +78,6 @@ public class player {
         return level;
     }
 
-    // === Getter XP ===
     public int getXp() {
         return this.xp;
     }
