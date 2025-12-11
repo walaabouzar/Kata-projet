@@ -3,6 +3,7 @@ package re.forestier.edu.rpg;
 import java.util.HashMap;
 import java.util.Random;
 
+
 import re.forestier.edu.rpg.GameObjects;
 
 import re.forestier.edu.rpg.*;
@@ -23,21 +24,19 @@ public class UpdatePlayer {
     if (newLevel != currentLevel) {
         // Player leveled-up!
         Random random = new Random();
-        player.inventory.add(
-            GameObjects.OBJECT_LIST[random.nextInt(GameObjects.OBJECT_LIST.length)]
-        );
+        player.inventory.add(GameObjects.OBJECT_LIST[random.nextInt(GameObjects.OBJECT_LIST.length)]);
 
-        // Add/upgrade abilities
-        player.abilities.putAll(
-            AbilityRepository.getAbilities()
-                .get(player.getAvatarClass())
-                .get(newLevel)
-        );
+        // Add/upgrade abilities using AbilityProvider
+        HashMap<String, Integer> newAbilities = AbilityProvider.getAbilitiesFor(player.getAvatarClass(), newLevel);
+        newAbilities.forEach((ability, level) -> {
+            player.abilities.put(ability, level);
+        });
 
         return true;
     }
     return false;
 }
+
 
     // majFinDeTour met à jour les points de vie
     public static void majFinDeTour(player player) {
