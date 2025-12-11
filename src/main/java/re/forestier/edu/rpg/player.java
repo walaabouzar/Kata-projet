@@ -3,6 +3,9 @@ package re.forestier.edu.rpg;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
+import re.forestier.edu.rpg.*;
+
 import java.util.ArrayList;
 
 public class player {
@@ -43,7 +46,8 @@ public class player {
         this.money = money;
         this.inventory = inventory;
 
-        this.abilities = UpdatePlayer.abilitiesPerTypeAndLevel().get(AvatarClass).get(1);
+        this.abilities = AbilityRepository.getAbilities().get(AvatarClass).get(1);
+
         this.avatar = AvatarFactory.create(avatarClass);
     }
 
