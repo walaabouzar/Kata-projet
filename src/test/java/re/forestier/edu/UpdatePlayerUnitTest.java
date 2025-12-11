@@ -2,6 +2,8 @@ package re.forestier.edu;
 
 import org.junit.jupiter.api.*;
 import java.lang.reflect.Field;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 
 import re.forestier.edu.rpg.UpdatePlayer;
@@ -106,6 +108,25 @@ public class UpdatePlayerUnitTest {
         // Vérifie que currenthealthpoints reste à 0
         assertEquals(0, p.currenthealthpoints);
     } 
+    @Test
+    public void testMajFinDeTourPrintsKoMessage() {
+        player p1 = new player("John", "Avatar", "ARCHER", 100, new ArrayList<>());
+        p1.currenthealthpoints = 0;
+
+        // Capture console
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out; // sauvegarde
+
+        System.setOut(new PrintStream(outContent));
+
+        try {
+            UpdatePlayer.majFinDeTour(p1);
+        } finally {
+            System.setOut(originalOut); // restaure proprement
+        }
+
+        assertTrue(outContent.toString().contains("Le joueur est KO !"));
+    }
     @Test
     void TestMajFinDeTourArcherCPLessHalfHP() {
     
@@ -219,16 +240,47 @@ public class UpdatePlayerUnitTest {
 
         UpdatePlayer.majFinDeTour(p);
         assertEquals(50, p.currenthealthpoints);
+
+
+
+    }
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajEgalCurrent_w_Health() {
         
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
+
+        p.healthpoints = 50;
+        p.currenthealthpoints = 50; // statut KO 
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(50, p.currenthealthpoints);
+        assertEquals(50, p.healthpoints);
+    }
 
 
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajCurrentInfHealth() {
+        
+        player p = new player("John", "Avatar", "ADVENTURER", 100, new ArrayList<>());
 
+        p.healthpoints = 200;
+        p.currenthealthpoints = 120; // statut KO 
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(200, p.healthpoints);
+        assertEquals(120, p.currenthealthpoints);
+        
+    }
+    @Test
+    @DisplayName("test if  player is ko should not change health")
+    void TestMajCurrentSupHealth() {
+        
+        player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
+
+        p.healthpoints = 20;
+        p.currenthealthpoints = 50; // statut KO 
+        UpdatePlayer.majFinDeTour(p);
+        assertEquals(20, p.currenthealthpoints);
     }
 
     }
-
-
-
-    
-
-    
