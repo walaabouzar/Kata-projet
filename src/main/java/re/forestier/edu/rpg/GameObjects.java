@@ -1,8 +1,10 @@
 package re.forestier.edu.rpg;
 
+import java.util.Random;
+
 public class GameObjects {
     
-    public final static String[] OBJECT_LIST = {
+    public final static String[] objectList = {
             "Lookout Ring : Prevents surprise attacks",
             "Scroll of Stupidity : INT-2 when applied to an enemy",
             "Draupnir : Increases XP gained by 100%",
@@ -11,4 +13,13 @@ public class GameObjects {
             "Combat Edge : Well, that's an edge",
             "Holy Elixir : Recover your HP"
     };
+
+    private static final Random RANDOM = new Random();
+
+    private GameObjects() {}
+
+    public static String giveRandomObject() {
+        return objectList[RANDOM.nextInt(objectList.length)];
+    }
+
 }
