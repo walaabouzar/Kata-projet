@@ -46,7 +46,7 @@ public class player {
         this.money = money;
         this.inventory = inventory;
 
-        this.abilities = new HashMap<>(AbilityRepositoryy.getAbilities(avatarClass, 1));
+        this.abilities = new HashMap<>(AbilityRepository.getAbilities(avatarClass, 1));
 
         this.avatar = AvatarFactory.create(avatarClass);
     }
