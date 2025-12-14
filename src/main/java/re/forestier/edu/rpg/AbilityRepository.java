@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 public class AbilityRepository {
 
-    public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> getAbilities() {
-
-        HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel = new HashMap<>();
-
+    public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> ABILITIES
+           = new HashMap<>();
+    
+    static{
         // ADVENTURER
         HashMap<Integer, HashMap<String, Integer>> adventurerMap = new HashMap<>();
         HashMap<String, Integer> adventurerLevel1 = new HashMap<>();
@@ -36,7 +36,7 @@ public class AbilityRepository {
         adventurerLevel5.put("DEF", 4);
         adventurerMap.put(5, adventurerLevel5);
 
-        abilitiesPerTypeAndLevel.put("ADVENTURER", adventurerMap);
+        ABILITIES.put("ADVENTURER", adventurerMap);
 
 
         // ARCHER
@@ -65,7 +65,7 @@ public class AbilityRepository {
         archerLevel5.put("ATK", 4);
         archerMap.put(5, archerLevel5);
 
-        abilitiesPerTypeAndLevel.put("ARCHER", archerMap);
+        ABILITIES.put("ARCHER", archerMap);
 
 
         // DWARF
@@ -93,9 +93,20 @@ public class AbilityRepository {
         dwarfLevel5.put("CHA", 1);
         dwarf.put(5, dwarfLevel5);
 
-        abilitiesPerTypeAndLevel.put("DWARF", dwarf);
+        ABILITIES.put("DWARF", dwarf);
+    }
+    private AbilityRepository() {
+        // empêche l’instanciation
+    }
 
-        return abilitiesPerTypeAndLevel;
+    public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> getAbilitiesPerTypeAndLevel() {
+        return ABILITIES;
+    }
+
+    public static HashMap<String, Integer> getAbilities(String avatarClass, int level) {
+        return ABILITIES
+                .getOrDefault(avatarClass, new HashMap<>())
+                .getOrDefault(level, new HashMap<>());
     }
 }
 
