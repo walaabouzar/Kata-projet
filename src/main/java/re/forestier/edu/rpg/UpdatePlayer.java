@@ -27,13 +27,11 @@ public class UpdatePlayer {
 }
 
     private static void levelUp(player p, int level) {
-        p.inventory.add(ObjectRewardService.giveRandomObject());
+        p.inventory.add(GameObjects.giveRandomObject());
 
         HashMap<String, Integer> newAbilities =
                 abilitiesPerTypeAndLevel().get(p.getAvatarClass()).get(level);
-        newAbilities.forEach((ability, value) -> {
-            p.abilities.put(ability, value);
-        });
+        p.abilities.putAll(newAbilities);
     }
 
     // majFinDeTour met à jour les points de vie
