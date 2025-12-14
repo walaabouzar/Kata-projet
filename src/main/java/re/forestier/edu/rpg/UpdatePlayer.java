@@ -2,7 +2,6 @@ package re.forestier.edu.rpg;
 
 import java.util.HashMap;
 import java.util.Random;
-
 import re.forestier.edu.rpg.GameObjects;
 
 import re.forestier.edu.rpg.*;
@@ -12,7 +11,7 @@ import re.forestier.edu.rpg.*;
 public class UpdatePlayer {
 
     public static HashMap<String, HashMap<Integer, HashMap<String, Integer>>> abilitiesPerTypeAndLevel() {
-        return AbilityRepository.getAbilities();
+        return AbilityRepository.getAbilitiesPerTypeAndLevel();
     }
 
     public static boolean addXp(player player, int xp) {
@@ -21,21 +20,21 @@ public class UpdatePlayer {
     int newLevel = player.retrieveLevel();
 
     if (newLevel != currentLevel) {
-        // Player leveled-up!
-        Random random = new Random();
-        player.inventory.add(GameObjects.OBJECT_LIST[random.nextInt(GameObjects.OBJECT_LIST.length)]);
-
-        // Add/upgrade abilities using AbilityProvider
-        HashMap<String, Integer> newAbilities = AbilityProvider.getAbilitiesFor(player.getAvatarClass(), newLevel);
-        newAbilities.forEach((ability, level) -> {
-            player.abilities.put(ability, level);
-        });
-
+        levelUp(player, newLevel);
         return true;
     }
     return false;
 }
 
+    private static void levelUp(player p, int level) {
+        p.inventory.add(ObjectRewardService.giveRandomObject());
+
+        HashMap<String, Integer> newAbilities =
+                abilitiesPerTypeAndLevel().get(p.getAvatarClass()).get(level);
+        newAbilities.forEach((ability, value) -> {
+            p.abilities.put(ability, value);
+        });
+    }
 
     // majFinDeTour met à jour les points de vie
 public static void majFinDeTour(player player) {
