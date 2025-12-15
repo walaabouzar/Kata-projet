@@ -30,4 +30,9 @@ public class Affichage {
 
         return sb.toString();
     }
+
+    public static String afficherJoueurMarkdown(player player) {
+    return "";
+}
+
 }

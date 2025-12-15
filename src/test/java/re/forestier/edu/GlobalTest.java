@@ -23,4 +23,15 @@ public class GlobalTest {
 
         verify(Affichage.afficherJoueur(player));
     }
+
+    @Test
+    @DisplayName("Affichage joueur en Markdown")
+void testAffichageMarkdown() {
+    player player = new player("Florian", "Gnognak le Barbare", "ADVENTURER", 200, new ArrayList<>());
+    UpdatePlayer.addXp(player, 20);
+    player.inventory = new ArrayList<>();
+
+    verify(Affichage.afficherJoueurMarkdown(player));
+}
+
 }
