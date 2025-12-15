@@ -16,9 +16,17 @@ public class Affichage {
         );
 
         sb.append("\n\nInventaire :");
-        player.inventory.forEach(item ->
-            sb.append("\n   ").append(item)
+        player.inventory.forEach(obj ->
+            sb.append("\n   ")
+            .append(obj.getName())
+            .append(" — ")
+            .append(obj.getDescription())
+            .append(" | poids: ")
+            .append(obj.getWeight())
+            .append(" | valeur: ")
+            .append(obj.getValue())
         );
+
 
         return sb.toString();
     }

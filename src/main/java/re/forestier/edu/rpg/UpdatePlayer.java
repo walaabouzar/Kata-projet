@@ -27,7 +27,12 @@ public class UpdatePlayer {
 }
 
     private static void levelUp(player p, int level) {
-        p.inventory.add(GameObjects.giveRandomObject());
+        GestionObjets reward = GameObjects.giveRandomObject();
+        p.addObject(reward);
+        boolean addobj = p.addObject(reward);
+        if(addobj){
+            p.inventory.add(reward);}
+        
 
         HashMap<String, Integer> newAbilities =
                 abilitiesPerTypeAndLevel().get(p.getAvatarClass()).get(level);

@@ -32,9 +32,10 @@ public class player {
     }
 
     public HashMap<String, Integer> abilities;
-    public ArrayList<String> inventory;
+    private static final int MAX_CARRY_WEIGHT = 10;
+    public ArrayList<GestionObjets> inventory;
 
-    public player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<String> inventory) {
+    public player(String playerName, String avatar_name, String avatarClass, int money, ArrayList<GestionObjets> inventory) {
 
         if (!avatarClass.equals("ARCHER") && !avatarClass.equals("ADVENTURER") && !avatarClass.equals("DWARF") && !avatarClass.equals("GOBLIN")) {
             return;
@@ -81,6 +82,32 @@ public class player {
         }
         return level;
     }
+
+    public int getCurrentWeight() {
+    return inventory.stream()
+            .mapToInt(GestionObjets::getWeight)
+            .sum();
+    }
+
+    public boolean addObject(GestionObjets obj) {
+    if (getCurrentWeight() + obj.getWeight() > MAX_CARRY_WEIGHT) {
+        return false;
+    }
+    return true;
+    }
+    
+    public boolean sell(GestionObjets obj) {
+    if (!inventory.contains(obj)) {
+        return false;
+    }
+
+    inventory.remove(obj);
+    money += obj.getValue();
+    return true;
+}
+
+
+
 
     public int getXp() {
         return this.xp;

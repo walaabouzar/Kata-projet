@@ -13,7 +13,7 @@ public class HealthManager {
 
                 case "ARCHER":
                     p.currenthealthpoints+=1;
-                    if (p.inventory.contains("Magic Bow")) {
+                    if (p.inventory.stream().anyMatch(o -> "Magic Bow".equals(o.getName()))) {
                         // S'assurer que le calcul donne un int correct
                         p.currenthealthpoints+=p.currenthealthpoints / 8 - 1;
                     }
@@ -21,7 +21,7 @@ public class HealthManager {
 
                 case "DWARF":
                     p.currenthealthpoints+=1;
-                    if (p.inventory.contains("Holy Elixir")) {
+                    if (p.inventory.stream().anyMatch(o -> "Holy Elixir".equals(o.getName()))) {
                         p.currenthealthpoints+=1;
                     }
                     break;

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import re.forestier.edu.rpg.player;
 import re.forestier.edu.rpg.Affichage;
+import re.forestier.edu.rpg.GestionObjets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +22,12 @@ public class AffichageTest {
 
     @BeforeEach
     void setup() {
-        // Création d'un joueur avec inventaire et capacités
         adventurer = new player("Alice", "HeroA", "ADVENTURER", 100, new ArrayList<>());
-        // Ajouter un item à l'inventaire pour tester
-        adventurer.inventory.add("Épée");
-        adventurer.inventory.add("Bouclier");
-        // Ajouter des capacités si elles sont nulles (par sécurité)
+
+        // Ajouter des objets au lieu de String
+        adventurer.inventory.add(new GestionObjets("Épée", "Une épée de base", 2, 50));
+        adventurer.inventory.add(new GestionObjets("Bouclier", "Un bouclier robuste", 3, 40));
+
         if (adventurer.abilities == null) {
             adventurer.abilities = new HashMap<>();
             adventurer.abilities.put("Force", 1);
@@ -37,17 +38,16 @@ public class AffichageTest {
     void testAfficherJoueur() {
         String output = Affichage.afficherJoueur(adventurer);
 
-        // Vérifier que la sortie contient les informations de base
         assertTrue(output.contains("Joueur HeroA joué par Alice"));
         assertTrue(output.contains("Niveau :"));
         assertTrue(output.contains("XP totale :"));
-        // Vérifier que les capacités sont présentes
         adventurer.abilities.forEach((name, level) -> {
             assertTrue(output.contains(name + " : " + level));
         });
-        // Vérifier que les items de l'inventaire sont présents
+
+        // Vérifie le nom des objets
         adventurer.inventory.forEach(item -> {
-            assertTrue(output.contains(item));
+            assertTrue(output.contains(item.getName()));
         });
     }
 

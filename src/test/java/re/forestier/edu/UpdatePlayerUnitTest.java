@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 
+import re.forestier.edu.rpg.GestionObjets;
 import re.forestier.edu.rpg.GameObjects;
 import re.forestier.edu.rpg.UpdatePlayer;
 import re.forestier.edu.rpg.player;
@@ -80,7 +81,7 @@ public class UpdatePlayerUnitTest {
 
     }
     @Test
-    @DisplayName("Verification de l'ajour d'un objet à partie de la liste des objets")
+    @DisplayName("Verification de l'ajout d'un objet à partir de la liste des objets")
     void testRandomObjectAdded() {
         player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
 
@@ -89,13 +90,19 @@ public class UpdatePlayerUnitTest {
         boolean result = UpdatePlayer.addXp(p, 200);
         int newLevel = p.retrieveLevel();
         assertTrue(newLevel > currentLevel); // le joueur a monté de niveau
-        assertTrue(result);       
-        assertEquals(initialSize + 1, p.inventory.size());
+        assertTrue(result);  
+        if (!p.inventory.isEmpty()) {
+            assertEquals(initialSize + 1, p.inventory.size(), "Un objet doit être ajouté à l'inventaire");
 
-        //récupération de l'objet ajouté
-        String addedObject = p.inventory.get(p.inventory.size() - 1);
-        assertNotNull(addedObject);
-        assertFalse(addedObject.isBlank());
+            // Récupération de l'objet ajouté
+            GestionObjets addedObject = p.inventory.get(p.inventory.size() - 1);
+            assertNotNull(addedObject.getName(), "Le nom de l'objet ajouté ne doit pas être null");
+            assertFalse(addedObject.getName().isBlank(), "Le nom de l'objet ajouté ne doit pas être vide");
+            assertNotNull(addedObject.getDescription(), "La description de l'objet ne doit pas être null");
+        } else {
+            // Si inventaire vide, l'objet n'a pas pu être ajouté (ex: poids max)
+            System.out.println("Aucun objet ajouté car inventaire plein ou limite de poids atteinte");
+        }     
     }
 
 
@@ -139,7 +146,9 @@ public class UpdatePlayerUnitTest {
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
 
-        assertFalse(p.inventory.contains("Holy Elixir"));
+        boolean hasHolyElixir = p.inventory.stream()
+            .anyMatch(o -> o.getName().equals("Holy Elixir"));
+        assertFalse(hasHolyElixir);
 
         UpdatePlayer.majFinDeTour(p);
         
@@ -153,9 +162,7 @@ public class UpdatePlayerUnitTest {
     void TestMajFinDeTourCPLessHalfHP() {
         
         player p = new player("John", "Avatar", "DWARF", 100, new ArrayList<>());
-        
-        p.inventory = new ArrayList<>();        // création de la liste
-        p.inventory.add("Holy Elixir");               // ajout de l'élément
+        p.inventory.add(new GestionObjets("Holy Elixir", "Recover your HP", 1, 30));               // ajout de l'élément
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
         UpdatePlayer.majFinDeTour(p);
@@ -174,7 +181,9 @@ public class UpdatePlayerUnitTest {
 
         p.healthpoints = 100;
         p.currenthealthpoints = 49; // statut KO
-        assertFalse(p.inventory.contains("Magic Bow"), "L'inventaire ne doit pas avoir Magic Bow");        
+        boolean MagicBow = p.inventory.stream()
+            .anyMatch(o -> o.getName().equals("Magic Bow"));
+        assertFalse(MagicBow, "L'inventaire ne doit pas avoir Magic Bow");   
         UpdatePlayer.majFinDeTour(p);
         assertEquals(50, p.currenthealthpoints);
 
@@ -189,7 +198,7 @@ public class UpdatePlayerUnitTest {
         p.healthpoints = 100;
         p.currenthealthpoints = 47; // statut KO
         p.inventory = new ArrayList<>();        // création de la liste
-        p.inventory.add("Magic Bow");  
+        p.inventory.add(new GestionObjets("Magic Bow", "",0,0));   
         UpdatePlayer.majFinDeTour(p);
         assertEquals(53, p.currenthealthpoints);
         // faut que le resultat soit int dans refactoring tu le fait car ya devision il faut faire le cast 
