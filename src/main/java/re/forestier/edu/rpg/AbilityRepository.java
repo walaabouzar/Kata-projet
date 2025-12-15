@@ -94,6 +94,34 @@ public class AbilityRepository {
         dwarf.put(5, dwarfLevel5);
 
         ABILITIES.put("DWARF", dwarf);
+        
+        // GOBLIN
+        HashMap<Integer, HashMap<String, Integer>> GoblinMap = new HashMap<>();
+        HashMap<String, Integer> GoblinLevel1 = new HashMap<>();
+        GoblinLevel1.put("INT", 2);
+        GoblinLevel1.put("ATK", 2);
+        GoblinLevel1.put("ALC", 1);
+        GoblinMap.put(1, GoblinLevel1);
+
+        HashMap<String, Integer> GoblinLevel2 = new HashMap<>();
+        GoblinLevel2.put("ATK", 3);
+        GoblinLevel2.put("ALC", 4);
+        GoblinMap.put(2, GoblinLevel2);
+
+        HashMap<String, Integer> GoblinLevel3 = new HashMap<>();
+        GoblinLevel3.put("VIC", 1);
+        GoblinMap.put(3, GoblinLevel3);
+
+        HashMap<String, Integer> GoblinLevel4 = new HashMap<>();
+        GoblinLevel4.put("DEF", 1);
+        GoblinMap.put(4, GoblinLevel4);
+
+        HashMap<String, Integer> GoblinLevel5 = new HashMap<>();
+        GoblinLevel5.put("DEF", 2);
+        GoblinLevel5.put("ATK", 4);
+        GoblinMap.put(5, GoblinLevel5);
+
+        ABILITIES.put("GOBLIN", GoblinMap);
     }
     private AbilityRepository() {
         // empêche l’instanciation

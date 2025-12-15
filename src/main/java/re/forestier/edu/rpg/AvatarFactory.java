@@ -6,6 +6,7 @@ public class AvatarFactory {
             case "ARCHER" -> new Archer();
             case "ADVENTURER" -> new Adventurer();
             case "DWARF" -> new Dwarf();
+            case "GOBLIN" -> new Goblin();
             default -> throw new IllegalArgumentException("Unknown avatar " + avatarClassName);
         };
     }
