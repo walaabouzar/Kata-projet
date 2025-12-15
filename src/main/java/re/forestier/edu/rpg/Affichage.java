@@ -32,7 +32,16 @@ public class Affichage {
     }
 
     public static String afficherJoueurMarkdown(player player) {
-    return "";
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("# ").append(player.playerName).append("\n");
+    sb.append("## ").append(player.Avatar_name).append("\n");
+    sb.append("* Classe : ").append(player.getAvatarClass()).append("\n");
+    sb.append("* Niveau : ").append(player.retrieveLevel()).append("\n");
+    sb.append("* Argent : ").append(player.money).append("\n");
+
+    return sb.toString();
 }
+
 
 }
